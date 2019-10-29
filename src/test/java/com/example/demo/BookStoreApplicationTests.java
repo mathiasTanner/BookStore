@@ -1,18 +1,19 @@
-package com.haagahelia;
+package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.haagahelia.course.BookStoreApplication;
 import com.haagahelia.course.web.BookController;
 
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest (classes = BookStoreApplication.class)
 public class BookStoreApplicationTests {
 
 	@Autowired
@@ -22,5 +23,4 @@ public class BookStoreApplicationTests {
 	public void contextLoads() {
 		assertThat(controller).isNotNull();
 	}
-
 }

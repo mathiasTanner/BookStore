@@ -1,6 +1,7 @@
-package com.example.w2ex4BookStore;
+package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -8,43 +9,48 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.w2ex4BookStore.domain.Category;
-import com.example.w2ex4BookStore.domain.CategoryRepository;
+import com.haagahelia.course.BookStoreApplication;
+import com.haagahelia.course.domain.Category;
+import com.haagahelia.course.domain.CategoryRepository;
+
+
 
 @RunWith(SpringRunner.class)
+@ContextConfiguration (classes = BookStoreApplication.class)
 @DataJpaTest
 public class CategoryRepositoryTest {
 	
 	@Autowired
-	private CategoryRepository catRepository;
+	private CategoryRepository catRepo;
 
 	@Test
     public void createNewCategory() {
-    	Category category = new Category("Thriller");
-    	catRepository.save(category);
+    	Category category = new Category("testCat");
+    	catRepo.save(category);
     	assertThat(category.getId()).isNotNull();
     }
 	
 	@Test
     public void deleteCategory() {
-		//We create a book that we will delete just after
+		
     	Category category= new Category("Dark");
-    	catRepository.save(category);
+    	catRepo.save(category);
     	
-    	//We delete this book
-    	catRepository.deleteById(category.getId());
     	
-    	//We test that it is really deleted
-    	assertThat(catRepository.findById(category.getId())).isEmpty();
+    	catRepo.deleteById(category.getId());
+    	
+    	
+    	assertThat(catRepo.findById(category.getId())).isEmpty();
     }
 	
 	@Test
     public void findByNameShouldReturnCategory() {
-        List<Category> categories = catRepository.findByName("New");
+        List<Category> categories = catRepo.findByName("History");
         
         assertThat(categories).hasSize(1);
-        assertThat(categories.get(0).getId()).isEqualTo(2);
+        assertEquals("History", categories.get(0).getName());
     }
 }
